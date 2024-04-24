@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #main {
+            height: 100px;
+            background-color: gold;
+        }
+
+        #search {
+            height: 80px;
+            width: 100%;
+            background: green;
+        }
+
+        .search-text {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+
+        .search-input {
+            height: 30px;
+            width: 200px;
+            text-align: center;
+        }
+
+        #items {
+            height: 100%;
+            width: 100%;
+        }
+
+        .sort-column {
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sort-row {
+
+            height: 800px;
+            display: flex;
+            text-align: center;
+            flex-direction: row;
+            justify-content: left;
+            flex-wrap: wrap;
+            gap: 10%;
+
+            margin-left: 10%;
+        }
+    </style>
+
+    <!-- 카드 부문 -->
+    <style>
+        .maincard {
+
+            width: 25%;
+
+            height: 100%;
+
+            margin-top: 50px;
+
+        }
+
+        .thecard {
+
+            width: 100%;
+
+            height: 100%;
+
+            transform-style: preserve-3d;
+
+            transition: all 0.5s ease;
+        }
+
+        .thecard:hover {
+            transform: rotateY(180deg);
+        }
+
+        .thefront {
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 100%;
+
+            backface-visibility: hidden;
+
+            background: #ffc728;
+
+            color: #333;
+
+            border-radius: 15px;
+        }
+
+        .theback {
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 100%;
+
+            backface-visibility: hidden;
+
+            background: #fafafa;
+
+            color: #333;
+
+            border-radius: 15px;
+
+            transform: rotateY(180deg);
+        }
+    </style>
+
+    <!-- 스크립트 부문 -->
+    <script>
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
+            }
+        };
+
+        fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+    </script>
+
+
+</head>
+
+<body style="margin: 0; background-color: bisque;">
+    <div id="main" class="sort-column">
+        <h1>최고 평점 영화 컬렉션 모음</h1>
+    </div>
+    <div id="search" class="sort-column">
+        <h2 class="search-text">영화 검색 :
+            <input type="text" class="search-input" placeholder="영화 제목을 입력하세요" />
+            <button style="height: 35px; width: 50px;">검색</button>
+        </h2>
+    </div>
+    <div id="items">
+        <div class="sort-row">
+            <div class="maincard">
+                <div class="thecard">
+
+                    <div class="thefront">front
+                    </div>
+
+                    <div class="theback">back
+                    </div>
+                </div>
+            </div>
+
+            <div class="maincard">
+                <div class="thecard">
+
+                    <div class="thefront">front
+                    </div>
+
+                    <div class="theback">back
+                    </div>
+                </div>
+            </div>
+
+            <div class="maincard">
+                <div class="thecard">
+
+                    <div class="thefront">front
+                    </div>
+
+                    <div class="theback">back
+                    </div>
+                </div>
+            </div>
+
+            <div class="maincard">
+                <div class="thecard">
+
+                    <div class="thefront">front
+                    </div>
+
+                    <div class="theback">back
+                    </div>
+                </div>
+            </div>
+            <div class="maincard">
+                <div class="thecard">
+
+                    <div class="thefront">front
+                    </div>
+
+                    <div class="theback">back
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
