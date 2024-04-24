@@ -33,6 +33,7 @@
         #items {
             height: 100%;
             width: 100%;
+            background-color: red;
         }
 
         .sort-column {
@@ -42,17 +43,12 @@
             justify-content: center;
         }
 
-        .sort-row {
+        .movie-input {
 
-            height: 800px;
-            display: flex;
-            text-align: center;
-            flex-direction: row;
-            justify-content: left;
-            flex-wrap: wrap;
-            gap: 10%;
-
-            margin-left: 10%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 0%;
+            place-items: center;
         }
     </style>
 
@@ -60,12 +56,10 @@
     <style>
         .maincard {
 
-            width: 25%;
+            width: 350px;
 
-            height: 100%;
-
-            margin-top: 50px;
-
+            height: 700px;
+            margin-top: 5%;;
         }
 
         .thecard {
@@ -126,7 +120,7 @@
             method: 'GET',
             headers: {
                 accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
+                Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
             }
         };
 
@@ -150,7 +144,7 @@
         </h2>
     </div>
     <div id="items">
-        <div class="sort-row">
+        <div class="movie-input">
             <div class="maincard">
                 <div class="thecard">
 
@@ -184,16 +178,6 @@
                 </div>
             </div>
 
-            <div class="maincard">
-                <div class="thecard">
-
-                    <div class="thefront">front
-                    </div>
-
-                    <div class="theback">back
-                    </div>
-                </div>
-            </div>
             <div class="maincard">
                 <div class="thecard">
 
