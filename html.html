@@ -4,36 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>내배캠 영화 사이트</title>
+    <!-- 전체 틀 -->
     <style>
         #main {
             height: 100px;
             background-color: gold;
+            
         }
 
         #search {
             height: 80px;
             width: 100%;
-            background: green;
+            background-color:cornflowerblue;
         }
 
-        .search-text {
+        #search-text {
             margin-top: 0px;
             margin-bottom: 0px;
         }
 
 
-        .search-input {
+        #search-input {
             height: 30px;
             width: 200px;
             text-align: center;
         }
 
+        #search-button {
+            height: 35px;
+            width: 50px;
+        }
+
         #items {
             height: 100%;
             width: 100%;
-            background-color: red;
         }
 
         #movie-input {
@@ -51,16 +56,14 @@
             justify-content: center;
         }
     </style>
-
     <!-- 카드 부문 -->
     <style>
         .maincard {
-
             width: 350px;
-
             height: 800px;
             margin-top: 5%;
             margin-bottom: 5%;
+            display: block;
         }
 
         .thecard {
@@ -71,7 +74,7 @@
 
             transform-style: preserve-3d;
 
-            transition: all 0.5s ease;
+            transition: all 0.3s ease;
         }
 
         .thecard:hover {
@@ -88,7 +91,7 @@
 
             backface-visibility: hidden;
 
-            background: #ffc728;
+            background-color:burlywood ;
 
             color: #333;
 
@@ -105,7 +108,7 @@
 
             backface-visibility: hidden;
 
-            background: #fafafa;
+            background-color:black ;
 
             color: #333;
 
@@ -114,32 +117,50 @@
             transform: rotateY(180deg);
         }
 
-        .movie-image {
+        .movie_image {
             height: 45%;
             width: 80%;
             border: 3px solid black;
             margin: 7% 0px 3% 10%;
-            object-fit: cover; 
+            object-fit: cover;
         }
 
-        .movie-image-back {
+        .movie_image_back {
             height: 80%;
             width: 80%;
             border: 3px solid black;
             margin: 10% 0px 0% 10%;
         }
 
-        .movie-title {
+        .movie_title {
             margin: 0% 7% 1% 7%;
         }
 
-        .movie-text {
+        .movie_text {
             margin: 0% 10% 2% 10%;
         }
     </style>
 
-    <!-- 스크립트 부문 -->
+</head>
+
+<body style="margin: 0; background-color: bisque;">
+    <div id="main" class="sort-column">
+        <h1>최고 평점 영화 컬렉션 모음</h1>
+    </div>
+    <div id="search" class="sort-column">
+        <h2 id="search-text">영화 검색 :
+            <input type="text" id="search-input" placeholder="영화 제목을 입력하세요" />
+            <button id="search-button">검색</button>
+        </h2>
+    </div>
+    <div id="items">
+        <div id="movie-input">
+        </div>
+    </div>
+
+    <!-- 데이터 불러오기 스크립트 부문 -->
     <script>
+
         const options = {
             method: 'GET',
             headers: {
@@ -147,7 +168,6 @@
                 Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
             }
         };
-
         async function loadData(url, option) {
             let res = await fetch(url, option);
             if (res.status == 200) {
@@ -156,70 +176,73 @@
                 alert("서버에 접속하지 못하였습니다.");
             }
         }
-
         async function loadMovie() {
             try {
                 res = await loadData("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
                 // typeof : object
-                res = res.results; 
-                console.log(res);
+                res = res.results;
 
-                Array.prototype.forEach.call(res, (function(data) {
-                    // image title view average
-                    const Moviedata = [ data.poster_path, data.title, data.overview, data.vote_average];
+                // root class Select
+                const input = document.getElementById("movie-input");
 
-                    // root class Select
-                    const input = document.getElementById("movie-input");
+                // div Create
+                const tags = [
+                    ["div", "maincard"],
+                    ["div", "thecard"],
+                    ["div", "thefront"],
+                    ["div", "theback"],
+                    ["img", "movie_image"],
+                    ["h3", "movie_title"],
+                    ["h4", "movie_text"],
+                    ["h4", "movie_text"],
+                    ["img", "movie_image_back"]
+                ];
 
-                    // div Create
-                    const mainCard = document.createElement("div"); 
-                    const theCard = document.createElement("div"); 
-                    const theFront = document.createElement("div"); 
-                    const theBack = document.createElement("div"); 
-                    const image = document.createElement("img"); 
-                    const title = document.createElement("h3"); 
-                    const text = document.createElement("h4"); 
-                    const rating = document.createElement("h4"); 
-                    const backImage = document.createElement("img"); 
+                Array.prototype.forEach.call(res, ((data) => {
+                    // image title view average id
+                    const Moviedata = [data.poster_path, data.title, data.overview, data.vote_average, data.id];
 
-                    // class add
-                    mainCard.classList.add('maincard');
-                    theCard.classList.add('thecard');
-                    theFront.classList.add('thefront');
-                    theBack.classList.add('theback');
-                    image.classList.add('movie-image');
-                    title.classList.add('movie-title');
-                    text.classList.add('movie-text');
-                    rating.classList.add('movie-text');
-                    backImage.classList.add('movie-image-back');
+                    const arr = Array.prototype.map.call(tags, function (tag) {
+                        const item = document.createElement(tag[0]);
+                        item.classList.add(tag[1]);
+                        return item;
+                    })
 
                     // add to root
-                    input.appendChild(mainCard);
-                    mainCard.appendChild(theCard);
+                    //#region hardCoding
+                    input.appendChild(arr[0]);
+                    arr[0].appendChild(arr[1]);
+                    {
+                        arr[0].id = Moviedata[4];
+                    }
+                    arr[1].appendChild(arr[2]);
 
-                    theCard.appendChild(theFront);
-                    theFront.appendChild(image);
+                    arr[2].appendChild(arr[4]);
                     {
-                        image.setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
+                        arr[4].setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
                     }
-                    theFront.appendChild(title);
+                    arr[2].appendChild(arr[5]);
                     {
-                        title.textContent = Moviedata[1];
+                        arr[5].textContent = Moviedata[1];
                     }
-                    theFront.appendChild(text);
+                    arr[2].appendChild(arr[6]);
                     {
-                        text.textContent = `${Moviedata[2]}`;
+                        arr[6].textContent = `${Moviedata[2]}`;
                     }
-                    theFront.appendChild(rating);
+                    arr[2].appendChild(arr[7]);
                     {
-                        rating.textContent = `Rating: ${Moviedata[3]}`;
+                        arr[7].textContent = `Rating: ${Moviedata[3]}`;
                     }
 
-                    theCard.appendChild(theBack);
-                    theBack.appendChild(backImage);
+                    arr[1].appendChild(arr[3]);
+                    arr[3].appendChild(arr[8]);
                     {
-                        backImage.setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
+                        arr[8].setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
                     }
+                    //#endregion
+
+                    //Event 
+                    arr[0].addEventListener("click", function () { alert(`id : ${Moviedata[4]}`) });
                 }));
 
             }
@@ -227,47 +250,43 @@
                 alert("err" + err);
             }
         }
-
         loadMovie();
 
     </script>
-</head>
 
-<body style="margin: 0; background-color: bisque;">
-    <div id="main" class="sort-column">
-        <h1>최고 평점 영화 컬렉션 모음</h1>
-    </div>
-    <div id="search" class="sort-column">
-        <h2 class="search-text">영화 검색 :
-            <input type="text" class="search-input" placeholder="영화 제목을 입력하세요" />
-            <button style="height: 35px; width: 50px;">검색</button>
-        </h2>
-    </div>
-    <div id="items">
-        <div id="movie-input">
-            <div class="maincard">
-                <div class="thecard">
-                    <div class="thefront">
-                        <img class="movie-image"
-                            src="https://i.namu.wiki/i/pcuapOq_pmNJ-l3XnG1-5y-FawoBIe9NV6Xs8n8s4l9NxmbdzN34XJxhpm1iy6uWMK2MMcxPtD9_S3Wv1HGQxw.webp"
-                            alt="...">
-                        <h3 class="movie-title">영화의 제목입니다. 너무길지않게</h3>
-                        <h4 class="movie-text">근하고 조작할 수 있는 인터페이스를 제공합니다. Fetch API가 제공하는 전역 fetch() 메서드로 네트워크의 리소스를 쉽게
-                            비동기적으로 취득할 수도 있습니다. </h4>
-                            <h4 class="movie-text"> Rating: 8.426</h4>
-                    </div>
+    <!-- 영화 검색 스크립트 부문 -->
+    <script>
 
-                    <div class="theback">
-                        <img class="movie-image-back"
-                            src="https://i.namu.wiki/i/pcuapOq_pmNJ-l3XnG1-5y-FawoBIe9NV6Xs8n8s4l9NxmbdzN34XJxhpm1iy6uWMK2MMcxPtD9_S3Wv1HGQxw.webp"
-                            alt="...">
-                    </div>
+        // Search str
+        let searchInput = document.getElementById("search-input");
 
-                </div>
-            </div>
+        function Search() {
+            // Cards
+            let movieCard = document.getElementsByClassName("maincard");
 
-        </div>
-    </div>
+            Array.from(movieCard).forEach(title => {
+                let titleElement = title.querySelector(".movie_title");
+                if (!titleElement.textContent.toUpperCase().includes(searchInput.value.toUpperCase())) {
+                    title.style.display = "none";
+                }
+                else title.style.display = "block";
+            });
+
+            searchInput.value = "";
+        }
+
+        const searchBtn = document.getElementById("search-button");
+        searchBtn.addEventListener("click", Search);
+        searchInput.addEventListener("keydown", function (event) {
+            console.log(event.keycode);
+            if (window.event.keyCode === 13) {
+                Search();
+            }
+        });
+
+
+    </script>
+
 </body>
 
 </html>
