@@ -36,19 +36,19 @@
             background-color: red;
         }
 
-        .sort-column {
-            display: flex;
-            text-align: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .movie-input {
+        #movie-input {
 
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 0%;
             place-items: center;
+        }
+
+        .sort-column {
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
         }
     </style>
 
@@ -58,8 +58,9 @@
 
             width: 350px;
 
-            height: 700px;
-            margin-top: 5%;;
+            height: 800px;
+            margin-top: 5%;
+            margin-bottom: 5%;
         }
 
         .thecard {
@@ -112,6 +113,28 @@
 
             transform: rotateY(180deg);
         }
+
+        .movie-image {
+            height: 45%;
+            width: 80%;
+            background-color: green;
+            margin: 7% 0px 3% 10%;
+        }
+
+        .movie-image-back {
+            height: 80%;
+            width: 80%;
+            background-color: green;
+            margin: 10% 0px 0% 10%;
+        }
+
+        .movie-title {
+            margin: 0% 7% 1% 7%;
+        }
+
+        .movie-text {
+            margin: 0% 10% 2% 10%;
+        }
     </style>
 
     <!-- 스크립트 부문 -->
@@ -120,17 +143,45 @@
             method: 'GET',
             headers: {
                 accept: 'application/json',
-                Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
             }
         };
 
-        fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
+        async function loadData(url, option) {
+            let res = await fetch(url, option);
+            if (res.status == 200) {
+                return res.json();
+            } else {
+                alert("서버에 접속하지 못하였습니다.");
+            }
+        }
+
+        async function loadMovie() {
+            try {
+                res = await loadData("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
+                console.log(res['results']);
+
+                Array.prototype.map.call(res, function(data){
+                    id = movie["id"];
+                    title = movie["title"];
+                    view = movie["view"];
+                    console.log(view);
+                });
+                
+                res.forEach(movie => {
+
+                    //document.getElementById("movie-input")
+                });
+
+            }
+            catch (err) {
+                alert("err" + err);
+            }
+        }
+
+        loadMovie();
+
     </script>
-
-
 </head>
 
 <body style="margin: 0; background-color: bisque;">
@@ -144,50 +195,28 @@
         </h2>
     </div>
     <div id="items">
-        <div class="movie-input">
+        <div id="movie-input">
             <div class="maincard">
                 <div class="thecard">
 
-                    <div class="thefront">front
+                    <div class="thefront">
+                        <img class="movie-image"
+                            src="https://i.namu.wiki/i/pcuapOq_pmNJ-l3XnG1-5y-FawoBIe9NV6Xs8n8s4l9NxmbdzN34XJxhpm1iy6uWMK2MMcxPtD9_S3Wv1HGQxw.webp"
+                            alt="...">
+                        <h3 class="movie-title">영화의 제목입니다. 너무길지않게</h3>
+                        <h4 class="movie-text">근하고 조작할 수 있는 인터페이스를 제공합니다. Fetch API가 제공하는 전역 fetch() 메서드로 네트워크의 리소스를 쉽게
+                            비동기적으로 취득할 수도 있습니다. </h4>
                     </div>
 
-                    <div class="theback">back
+                    <div class="theback">
+                        <img class="movie-image-back"
+                            src="https://i.namu.wiki/i/pcuapOq_pmNJ-l3XnG1-5y-FawoBIe9NV6Xs8n8s4l9NxmbdzN34XJxhpm1iy6uWMK2MMcxPtD9_S3Wv1HGQxw.webp"
+                            alt="...">
                     </div>
+
                 </div>
             </div>
 
-            <div class="maincard">
-                <div class="thecard">
-
-                    <div class="thefront">front
-                    </div>
-
-                    <div class="theback">back
-                    </div>
-                </div>
-            </div>
-
-            <div class="maincard">
-                <div class="thecard">
-
-                    <div class="thefront">front
-                    </div>
-
-                    <div class="theback">back
-                    </div>
-                </div>
-            </div>
-
-            <div class="maincard">
-                <div class="thecard">
-
-                    <div class="thefront">front
-                    </div>
-
-                    <div class="theback">back
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </body>
