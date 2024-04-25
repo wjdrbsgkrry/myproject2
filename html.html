@@ -117,14 +117,15 @@
         .movie-image {
             height: 45%;
             width: 80%;
-            background-color: green;
+            border: 3px solid black;
             margin: 7% 0px 3% 10%;
+            object-fit: cover; 
         }
 
         .movie-image-back {
             height: 80%;
             width: 80%;
-            background-color: green;
+            border: 3px solid black;
             margin: 10% 0px 0% 10%;
         }
 
@@ -159,19 +160,67 @@
         async function loadMovie() {
             try {
                 res = await loadData("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
-                console.log(res['results']);
+                // typeof : object
+                res = res.results; 
+                console.log(res);
 
-                Array.prototype.map.call(res, function(data){
-                    id = movie["id"];
-                    title = movie["title"];
-                    view = movie["view"];
-                    console.log(view);
-                });
-                
-                res.forEach(movie => {
+                Array.prototype.forEach.call(res, (function(data) {
+                    // image title view average
+                    const Moviedata = [ data.poster_path, data.title, data.overview, data.vote_average];
 
-                    //document.getElementById("movie-input")
-                });
+                    // root class Select
+                    const input = document.getElementById("movie-input");
+
+                    // div Create
+                    const mainCard = document.createElement("div"); 
+                    const theCard = document.createElement("div"); 
+                    const theFront = document.createElement("div"); 
+                    const theBack = document.createElement("div"); 
+                    const image = document.createElement("img"); 
+                    const title = document.createElement("h3"); 
+                    const text = document.createElement("h4"); 
+                    const rating = document.createElement("h4"); 
+                    const backImage = document.createElement("img"); 
+
+                    // class add
+                    mainCard.classList.add('maincard');
+                    theCard.classList.add('thecard');
+                    theFront.classList.add('thefront');
+                    theBack.classList.add('theback');
+                    image.classList.add('movie-image');
+                    title.classList.add('movie-title');
+                    text.classList.add('movie-text');
+                    rating.classList.add('movie-text');
+                    backImage.classList.add('movie-image-back');
+
+                    // add to root
+                    input.appendChild(mainCard);
+                    mainCard.appendChild(theCard);
+
+                    theCard.appendChild(theFront);
+                    theFront.appendChild(image);
+                    {
+                        image.setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
+                    }
+                    theFront.appendChild(title);
+                    {
+                        title.textContent = Moviedata[1];
+                    }
+                    theFront.appendChild(text);
+                    {
+                        text.textContent = `${Moviedata[2]}`;
+                    }
+                    theFront.appendChild(rating);
+                    {
+                        rating.textContent = `Rating: ${Moviedata[3]}`;
+                    }
+
+                    theCard.appendChild(theBack);
+                    theBack.appendChild(backImage);
+                    {
+                        backImage.setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
+                    }
+                }));
 
             }
             catch (err) {
@@ -198,7 +247,6 @@
         <div id="movie-input">
             <div class="maincard">
                 <div class="thecard">
-
                     <div class="thefront">
                         <img class="movie-image"
                             src="https://i.namu.wiki/i/pcuapOq_pmNJ-l3XnG1-5y-FawoBIe9NV6Xs8n8s4l9NxmbdzN34XJxhpm1iy6uWMK2MMcxPtD9_S3Wv1HGQxw.webp"
@@ -206,6 +254,7 @@
                         <h3 class="movie-title">영화의 제목입니다. 너무길지않게</h3>
                         <h4 class="movie-text">근하고 조작할 수 있는 인터페이스를 제공합니다. Fetch API가 제공하는 전역 fetch() 메서드로 네트워크의 리소스를 쉽게
                             비동기적으로 취득할 수도 있습니다. </h4>
+                            <h4 class="movie-text"> Rating: 8.426</h4>
                     </div>
 
                     <div class="theback">
