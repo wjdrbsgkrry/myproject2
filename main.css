@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    background-color: bisque;
+}
+
+#main {
+    height: 100px;
+    background-color: gold;
+
+}
+
+#search {
+    height: 80px;
+    width: 100%;
+    background-color: cornflowerblue;
+}
+
+#search-text {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+
+#search-input {
+    height: 30px;
+    width: 200px;
+    text-align: center;
+}
+
+#search-button {
+    height: 35px;
+    width: 50px;
+}
+
+#items {
+    height: 100%;
+    width: 100%;
+}
+
+#movie-input {
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0%;
+    place-items: center;
+}
+
+.sort-column {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+}

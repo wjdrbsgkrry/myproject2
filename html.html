@@ -5,145 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내배캠 영화 사이트</title>
+    
     <!-- 전체 틀 -->
-    <style>
-        #main {
-            height: 100px;
-            background-color: gold;
-            
-        }
+    <link rel="stylesheet" type="text/css" href="main.css">
 
-        #search {
-            height: 80px;
-            width: 100%;
-            background-color:cornflowerblue;
-        }
-
-        #search-text {
-            margin-top: 0px;
-            margin-bottom: 0px;
-        }
-
-
-        #search-input {
-            height: 30px;
-            width: 200px;
-            text-align: center;
-        }
-
-        #search-button {
-            height: 35px;
-            width: 50px;
-        }
-
-        #items {
-            height: 100%;
-            width: 100%;
-        }
-
-        #movie-input {
-
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 0%;
-            place-items: center;
-        }
-
-        .sort-column {
-            display: flex;
-            text-align: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-    </style>
     <!-- 카드 부문 -->
-    <style>
-        .maincard {
-            width: 350px;
-            height: 800px;
-            margin-top: 5%;
-            margin-bottom: 5%;
-            display: block;
-        }
+    <link rel="stylesheet" type="text/css" href="card.css">
 
-        .thecard {
+    <!-- 데이터 불러오기 스크립트 부문 -->
+     <script src="data.js"></script> 
 
-            width: 100%;
-
-            height: 100%;
-
-            transform-style: preserve-3d;
-
-            transition: all 0.3s ease;
-        }
-
-        .thecard:hover {
-            transform: rotateY(180deg);
-        }
-
-        .thefront {
-
-            position: absolute;
-
-            width: 100%;
-
-            height: 100%;
-
-            backface-visibility: hidden;
-
-            background-color:burlywood ;
-
-            color: #333;
-
-            border-radius: 15px;
-        }
-
-        .theback {
-
-            position: absolute;
-
-            width: 100%;
-
-            height: 100%;
-
-            backface-visibility: hidden;
-
-            background-color:black ;
-
-            color: #333;
-
-            border-radius: 15px;
-
-            transform: rotateY(180deg);
-        }
-
-        .movie_image {
-            height: 45%;
-            width: 80%;
-            border: 3px solid black;
-            margin: 7% 0px 3% 10%;
-            object-fit: cover;
-        }
-
-        .movie_image_back {
-            height: 80%;
-            width: 80%;
-            border: 3px solid black;
-            margin: 10% 0px 0% 10%;
-        }
-
-        .movie_title {
-            margin: 0% 7% 1% 7%;
-        }
-
-        .movie_text {
-            margin: 0% 10% 2% 10%;
-        }
-    </style>
+    <!-- 영화 검색 스크립트 부문 -->
+     <script src="search.js"></script> 
 
 </head>
 
-<body style="margin: 0; background-color: bisque;">
+<body>
     <div id="main" class="sort-column">
         <h1>최고 평점 영화 컬렉션 모음</h1>
     </div>
@@ -157,136 +34,6 @@
         <div id="movie-input">
         </div>
     </div>
-
-    <!-- 데이터 불러오기 스크립트 부문 -->
-    <script>
-
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTVmYzM3ZjUyMWZiZDFjOWVlZTdkZTBjZTc0ZDliMiIsInN1YiI6IjY2MjhlMjliZTI5NWI0MDE2NDliYWRkZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1d0sVFGdfWx4ElPtuCwkyhco9Z8yWzc637IyzwNlz0Y'
-            }
-        };
-        async function loadData(url, option) {
-            let res = await fetch(url, option);
-            if (res.status == 200) {
-                return res.json();
-            } else {
-                alert("서버에 접속하지 못하였습니다.");
-            }
-        }
-        async function loadMovie() {
-            try {
-                res = await loadData("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
-                // typeof : object
-                res = res.results;
-
-                // root class Select
-                const input = document.getElementById("movie-input");
-
-                // div Create
-                const tags = [
-                    ["div", "maincard"],
-                    ["div", "thecard"],
-                    ["div", "thefront"],
-                    ["div", "theback"],
-                    ["img", "movie_image"],
-                    ["h3", "movie_title"],
-                    ["h4", "movie_text"],
-                    ["h4", "movie_text"],
-                    ["img", "movie_image_back"]
-                ];
-
-                Array.prototype.forEach.call(res, ((data) => {
-                    // image title view average id
-                    const Moviedata = [data.poster_path, data.title, data.overview, data.vote_average, data.id];
-
-                    const arr = Array.prototype.map.call(tags, function (tag) {
-                        const item = document.createElement(tag[0]);
-                        item.classList.add(tag[1]);
-                        return item;
-                    })
-
-                    // add to root
-                    //#region hardCoding
-                    input.appendChild(arr[0]);
-                    arr[0].appendChild(arr[1]);
-                    {
-                        arr[0].id = Moviedata[4];
-                    }
-                    arr[1].appendChild(arr[2]);
-
-                    arr[2].appendChild(arr[4]);
-                    {
-                        arr[4].setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
-                    }
-                    arr[2].appendChild(arr[5]);
-                    {
-                        arr[5].textContent = Moviedata[1];
-                    }
-                    arr[2].appendChild(arr[6]);
-                    {
-                        arr[6].textContent = `${Moviedata[2]}`;
-                    }
-                    arr[2].appendChild(arr[7]);
-                    {
-                        arr[7].textContent = `Rating: ${Moviedata[3]}`;
-                    }
-
-                    arr[1].appendChild(arr[3]);
-                    arr[3].appendChild(arr[8]);
-                    {
-                        arr[8].setAttribute("src", `https://image.tmdb.org/t/p/w500/${Moviedata[0]}`);
-                    }
-                    //#endregion
-
-                    //Event 
-                    arr[0].addEventListener("click", function () { alert(`id : ${Moviedata[4]}`) });
-                }));
-
-            }
-            catch (err) {
-                alert("err" + err);
-            }
-        }
-        loadMovie();
-
-    </script>
-
-    <!-- 영화 검색 스크립트 부문 -->
-    <script>
-
-        // Search str
-        let searchInput = document.getElementById("search-input");
-
-        function Search() {
-            // Cards
-            let movieCard = document.getElementsByClassName("maincard");
-
-            Array.from(movieCard).forEach(title => {
-                let titleElement = title.querySelector(".movie_title");
-                if (!titleElement.textContent.toUpperCase().includes(searchInput.value.toUpperCase())) {
-                    title.style.display = "none";
-                }
-                else title.style.display = "block";
-            });
-
-            searchInput.value = "";
-        }
-
-        const searchBtn = document.getElementById("search-button");
-        searchBtn.addEventListener("click", Search);
-        searchInput.addEventListener("keydown", function (event) {
-            console.log(event.keycode);
-            if (window.event.keyCode === 13) {
-                Search();
-            }
-        });
-
-
-    </script>
-
 </body>
 
 </html>
