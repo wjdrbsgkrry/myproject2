@@ -1,0 +1,78 @@
+.maincard {
+  width: 350px;
+  height: 800px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: block;
+}
+
+.thecard {
+  width: 100%;
+
+  height: 100%;
+
+  transform-style: preserve-3d;
+
+  transition: all 0.3s ease;
+}
+
+.thecard:hover {
+  transform: rotateY(180deg);
+}
+
+.thefront {
+  position: absolute;
+
+  width: 100%;
+
+  height: 100%;
+
+  backface-visibility: hidden;
+
+  background-color: burlywood;
+
+  color: #333;
+
+  border-radius: 15px;
+}
+
+.theback {
+  position: absolute;
+
+  width: 100%;
+
+  height: 100%;
+
+  backface-visibility: hidden;
+
+  background-color: black;
+
+  color: #333;
+
+  border-radius: 15px;
+
+  transform: rotateY(180deg);
+}
+
+.movie_image {
+  height: 45%;
+  width: 80%;
+  border: 3px solid black;
+  margin: 7% 0px 3% 10%;
+  object-fit: cover;
+}
+
+.movie_image_back {
+  height: 80%;
+  width: 80%;
+  border: 3px solid black;
+  margin: 10% 0px 0% 10%;
+}
+
+.movie_title {
+  margin: 0% 7% 1% 7%;
+}
+
+.movie_text {
+  margin: 0% 10% 2% 10%;
+}
